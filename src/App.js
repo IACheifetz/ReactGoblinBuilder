@@ -13,16 +13,26 @@ function App() {
       goblinFormHP, which is how we track the user input for the current HP of the goblin in the form
       goblinFormColor, which is how we track the user input for the current color of the goblin in the form
 */
-
+  const [allGoblins, setAllGoblins] = useState([]);
+  const [filteredGoblins, setFilteredGoblins] = useState(null);
+  const [goblinFormName, setGoblinFormName] = useState(''); 
+  const [goblinFormHP, setGoblinFormHP] = useState(''); 
+  const [goblinFormColor, setGoblinFormColor] = useState(''); 
   
   function submitGoblin(e) {
     e.preventDefault();
-    
+    const newGoblin = {
+      id: Math.ceil(Math.random() * 9999999),
+      name: goblinFormName,
+      hp: goblinFormHP,
+      color: goblinFormColor
+    };
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
 
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
     
     // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
+    setAllGoblins([...allGoblins, newGoblin]);
   }
 
   function handleDeleteGoblin(name) {
