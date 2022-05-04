@@ -47,9 +47,10 @@ function App() {
 
   function handleFilterGoblins(search) {
     // use the filter method to get an array of goblins whose name includes this search argument
-
+    const lessGoblins = allGoblins.filter(goblin => goblin.name.includes(search));
     // if there is a search argument, set the filtered goblins to the filtered goblins
     // if the search argument is undefined, set the filtered goblins in state to just be the array of all goblins
+    search ? setFilteredGoblins(lessGoblins) : setFilteredGoblins(allGoblins);
   }
 
 
