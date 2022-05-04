@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function GoblinForm(props) {
-  function handleSubmit(e) {
-    e.preventDefault();
+export default function GoblinForm({ submitGoblin, onGoblinChange }) {
+  const [goblin, setGoblin] = useState({});
 
-    props.submitGoblin();
-    props.setGoblinFormName('');
-    props.setGoblinFormHP('');
-    props.setGoblinFormColor('');
-  }
+  useEffect(() => {
+    onGoblinChange(goblin);
+  }, [goblin, onGoblinChange]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    submitGoblin(goblin);
+  };
+
   return (
     <div className='goblin-form-container quarter'>
       {/* on submit, call the submitGoblin function, passed in as a prop.
@@ -19,19 +22,19 @@ export default function GoblinForm(props) {
         <label>
             Name
           {/* onChange, use the prop setGoblinFormName to set the parent state */}
-          <input required onChange={e => props.setGoblinFormName(e.target.value)} value={props.goblinFormName} />
+          <input required onChange={e => setGoblin({ ...goblin, name: e.target.value })} value={goblin.name || ''} />
           {/* note that we're controlling the input's value from parent state */}
         </label>
         <label>
             HP
           {/* onChange, use the prop setGoblinFormHP to set the parent state */}
-          <input required type="number" onChange={e => props.setGoblinFormHP(e.target.value)} value={props.goblinFormHP} />
+          <input required type="number" onChange={e => setGoblin({ ...goblin, hp: e.target.value })} value={goblin.hp || ''} />
           {/* note that we're controlling the input's value from parent state */}
         </label>
         <label>
             Color
           {/* onChange, use the prop setGoblinFormColor to set the parent state */}
-          <select required onChange={e => props.setGoblinFormColor(e.target.value)} value={props.goblinFormColor}>
+          <select required onChange={e => setGoblin({ ...goblin, color: e.target.value })} value={goblin.color || ''}>
             {/* note that we're controlling the input's value from parent state */}
             <option value="lightgreen">Green</option>
             <option value="lightblue">Blue</option>

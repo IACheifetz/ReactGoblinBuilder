@@ -15,24 +15,19 @@ function App() {
 */
   const [allGoblins, setAllGoblins] = useState([]);
   const [filteredGoblins, setFilteredGoblins] = useState(null);
-  const [goblinFormName, setGoblinFormName] = useState(''); 
-  const [goblinFormHP, setGoblinFormHP] = useState(''); 
-  const [goblinFormColor, setGoblinFormColor] = useState(''); 
+  const [currentGoblin, setCurrentGoblin] = useState({ name: '', hp: '', color: '' });
   
-  function submitGoblin(e) {
-    e.preventDefault();
+  function submitGoblin(goblin) {
     const newGoblin = {
+      ...goblin,
       id: Math.ceil(Math.random() * 9999999),
-      name: goblinFormName,
-      hp: goblinFormHP,
-      color: goblinFormColor
     };
+    // eslint-disable-next-line
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
 
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
-    
-    // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
     setAllGoblins([...allGoblins, newGoblin]);
+    // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
   }
 
   function handleDeleteGoblin(name) {
@@ -57,12 +52,7 @@ function App() {
   return (
     <div className="App">
       <div className='current-goblin quarter'>
-        <Goblin goblin={{
-          /* 
-            use the goblin form state to make a goblin object and to display it. 
-            This will let the user see the current form state 
-          */
-        }}/>
+        <Goblin goblin={currentGoblin}/>
       </div>
       <div className='goblin-filter quarter'>
         Filter Goblins
@@ -81,9 +71,11 @@ function App() {
           goblinFormHP, 
           setGoblinFormHP,
         */
+        submitGoblin={submitGoblin}
+        onGoblinChange={(goblin) => setCurrentGoblin(goblin)}
       />
       <GoblinList 
-        goblins={[]} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
+        goblins={filteredGoblins ? filteredGoblins : allGoblins} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
         handleDeleteGoblin={handleDeleteGoblin} // note that the goblin list has access to the ability to delete
       />
     </div>
